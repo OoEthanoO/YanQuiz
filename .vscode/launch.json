@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug YanQuiz Server",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/YanQuizServer/server.js",
+      "cwd": "${workspaceFolder}/YanQuizServer",
+      "envFile": "${workspaceFolder}/YanQuizServer/.env",
+      "console": "integratedTerminal"
+    }
+  ]
+}

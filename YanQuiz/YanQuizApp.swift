@@ -10,6 +10,19 @@ import SwiftData
 
 @main
 struct YanQuizApp: App {
+    init() {
+        UserDefaults.standard.register(defaults: [
+            "use_development_server": false,
+            "isLoggedIn": false,
+            "userData": ""
+        ])
+        
+        if UserDefaults.standard.bool(forKey: "isLoggedIn"),
+           let token = KeychainManager.get(key: "authToken") {
+            NetworkService.shared.restoreAuthToken(token)
+        }
+    }
+    
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Quiz.self,

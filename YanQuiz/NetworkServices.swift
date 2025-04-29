@@ -20,9 +20,23 @@ enum NetworkError: Error {
 }
 
 class NetworkService {
-//    private let baseURL = "https://api.yanquiz.com/api"
-    private let baseURL = "http://localhost:3000/api"
-    private var authToken: String?
+    
+    
+    private var baseURL: String {
+        let useDevServer = UserDefaults.standard.bool(forKey: "use_development_server")
+        if useDevServer {
+            return "http://localhost:3000/api"
+        } else {
+            return "https://yanquiz.onrender.com/api"
+        }
+    }
+    
+    static let shared = NetworkService()
+    var authToken: String?
+    
+    func restoreAuthToken(_ token: String) {
+        self.authToken = token
+    }
     
     // MARK: - Authentication
     
@@ -64,11 +78,11 @@ class NetworkService {
         }
     }
     
-    func registerUser(email: String, password: String) async throws -> User {
+    func registerUser(email: String, password: String, name: String) async throws -> User {
         let endpoint = "\(baseURL)/auth/register"
         
         // Prepare registration data
-        let userData = ["email": email, "password": password]
+        let userData = ["email": email, "password": password, "name": name]
         
         guard let url = URL(string: endpoint) else {
             throw NetworkError.invalidURL

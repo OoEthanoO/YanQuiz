@@ -14,7 +14,7 @@ class QuizViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String?
     
-    private let networkService = NetworkService()
+    private let networkService = NetworkService.shared
     
     func uploadPDF(fileURL: URL, userId: String) {
         isLoading = true

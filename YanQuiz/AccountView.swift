@@ -22,8 +22,22 @@ struct AccountView: View {
     @State private var isLoading = false
     @State private var errorMessage: String?
     @State private var isRegistering = false
+    @State private var rememberMe = false
+    
+    @AppStorage("isLoggedIn") private var isLoggedInStorage = false
+    @AppStorage("userData") private var userDataString: String = ""
     
     private let networkService = NetworkService()
+    
+    init() {
+        if isLoggedInStorage, !userDataString.isEmpty {
+            if let userData = userDataString.data(using: .utf8),
+               let storedUser = try? JSONDecoder().decode(User.self, from: userData) {
+                _user = State(initialValue: storedUser)
+                _isLoggedIn = State(initialValue: true)
+            }
+        }
+    }
     
     var body: some View {
         NavigationStack {
@@ -216,6 +230,9 @@ struct AccountView: View {
                         .background(Color(.systemGray6))
                         .cornerRadius(8)
                     
+                    Toggle("Remember me", isOn: $rememberMe)
+                        .padding(.vertical, 8)
+                    
                     if isLoading {
                         ProgressView()
                             .padding()
@@ -265,6 +282,17 @@ struct AccountView: View {
                 await MainActor.run {
                     self.user = loggedInUser
                     self.isLoggedIn = true
+                    
+                    if rememberMe {
+                        KeychainManager.save(key: "authToken", value: networkService.authToken ?? "")
+                        
+                        if let userData = try? JSONEncoder().encode(loggedInUser), let userString = String(data: userData, encoding: .utf8) {
+                            userDataString = userString
+                        }
+                        
+                        isLoggedInStorage = true
+                    }
+                    
                     self.showingLoginSheet = false
                     self.isLoading = false
                 }
@@ -282,7 +310,7 @@ struct AccountView: View {
         
         Task {
             do {
-                let registeredUser = try await networkService.registerUser(email: email, password: password)
+                let registeredUser = try await networkService.registerUser(email: email, password: password, name: name)
                 await MainActor.run {
                     self.user = registeredUser
                     self.isLoggedIn = true
@@ -299,7 +327,11 @@ struct AccountView: View {
     }
     
     private func logout() {
-        // In a real app, you would call a logout API
+        KeychainManager.delete(key: "authToken")
+        userDataString = ""
+        isLoggedInStorage = false
+        
+        networkService.logout()
         isLoggedIn = false
         user = nil
     }

@@ -14,6 +14,16 @@ struct PDFUploadView: View {
     @State private var selectedFileURL: URL?
     @State private var navigateToQuiz = false
     
+    @AppStorage("userData") private var userDataString: String = ""
+    
+    private var currentUserId: String {
+        if let userData = userDataString.data(using: .utf8),
+           let user = try? JSONDecoder().decode(User.self, from: userData) {
+            return user.id
+        }
+        return ""
+    }
+    
     var body: some View {
         NavigationStack {
             VStack(spacing: 20) {
@@ -51,7 +61,7 @@ struct PDFUploadView: View {
                         .padding(.top)
                     
                     Button(action: {
-                        viewModel.uploadPDF(fileURL: selectedFileURL, userId: "current-user-id") // Replace with actual user ID
+                        viewModel.uploadPDF(fileURL: selectedFileURL, userId: currentUserId)
                         navigateToQuiz = true
                     }) {
                         Label("Upload and Create Quiz", systemImage: "arrow.up.doc")

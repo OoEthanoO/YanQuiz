@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		81B5705B2DC0FC0700529721 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 81B5705A2DC0FC0700529721 /* Settings.bundle */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		812293012DB466E700927F29 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +31,7 @@
 		812292F12DB466E600927F29 /* YanQuiz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YanQuiz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		812293002DB466E700927F29 /* YanQuizTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YanQuizTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8122930A2DB466E700927F29 /* YanQuizUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YanQuizUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		81B5705A2DC0FC0700529721 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -34,6 +39,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
+				Untitled.swift,
 			);
 			target = 812292F02DB466E600927F29 /* YanQuiz */;
 		};
@@ -88,6 +94,7 @@
 		812292E82DB466E600927F29 = {
 			isa = PBXGroup;
 			children = (
+				81B5705A2DC0FC0700529721 /* Settings.bundle */,
 				812292F32DB466E600927F29 /* YanQuiz */,
 				812293032DB466E700927F29 /* YanQuizTests */,
 				8122930D2DB466E700927F29 /* YanQuizUITests */,
@@ -225,6 +232,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81B5705B2DC0FC0700529721 /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
